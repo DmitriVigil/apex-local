@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Review Engine | Apex Local Automation</title>
+
+    <link rel="stylesheet" href="asset/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+            tailwind.config = {
+              theme: {
+                extend: {
+                  fontFamily: {
+                    sans: ['Outfit', 'sans-serif'],
+                    heading: ['Space Grotesk', 'sans-serif'],
+                    mono: ['JetBrains Mono', 'monospace'],
+                  },
+                  colors: {
+                    brand: {
+                      cyan: '#00E5FF',
+                      charcoal: '#0D0D12',
+                      alert: '#FF3D00'
+                    }
+                  }
+                }
+              }
+            }
+    </script>
+    <script src="asset/js/app.js" defer></script>
+</head>
+<body class="bg-black text-slate-300 font-sans antialiased selection:bg-indigo-500 selection:text-white">
+
+    <!-- Header -->
+    <header class="border-b border-slate-800/80 bg-black/90 backdrop-blur sticky top-0 z-50 px-4 sm:px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition">
+                    <div class="h-9 w-9 rounded-lg bg-brand-cyan/10 text-brand-cyan flex items-center justify-center font-black text-xl border border-brand-cyan/30">⚡</div>
+                    <div>
+                        <span class="font-heading font-bold text-white text-base tracking-tight block leading-none">Apex Local</span>
+                        <span class="text-[11px] text-slate-500 font-mono uppercase tracking-wider">Automation</span>
+                    </div>
+                </a>
+            </div>
+            <div class="flex items-center gap-5">
+                <a href="#demo" class="hidden sm:block text-xs font-semibold text-slate-400 hover:text-white transition">See It Work</a>
+                <a href="#pricing" class="hidden sm:block text-xs font-semibold text-slate-400 hover:text-white transition">Pricing</a>
+                <a href="#faq" class="hidden sm:block text-xs font-semibold text-slate-400 hover:text-white transition">FAQ</a>
+                <a href="#contact" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2.5 rounded-lg shadow-[0_0_15px_rgba(79,70,229,0.3)] transition">Book Audit</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-16 pb-20 px-4 sm:px-6 lg:px-8 border-b border-slate-900 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-charcoal via-black to-black">
+        <div class="max-w-4xl mx-auto text-center space-y-6 fade-in">
+            <div class="inline-flex items-center gap-2 bg-brand-charcoal border border-slate-800 px-4 py-1.5 rounded-full text-xs font-medium text-slate-400 font-mono">
+                <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse shadow-[0_0_8px_rgba(99,102,241,0.8)]"></span>
+                The Local SEO Accelerator
+            </div>
+            <h1 class="font-heading text-4xl sm:text-5xl lg:text-7xl font-black text-white tracking-tight leading-[1.1]">
+                Dominate Google Maps With <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Zero Effort.</span>
+            </h1>
+            <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                Google's algorithm prioritizes review velocity. We wire an automated script into your invoicing software. When a job is marked "Paid," the system waits exactly 2 hours and texts the customer a direct link to generate a 5-star review.
+            </p>
+        </div>
+    </section>
+
+    <!-- Interactive Sandbox -->
+    <section id="demo" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-900 bg-brand-charcoal/30">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <!-- Phone UI Container -->
+            <div class="flex justify-center lg:justify-start order-2 lg:order-1">
+                <div class="w-full max-w-[320px] bg-brand-charcoal border-[6px] border-slate-800 rounded-[36px] shadow-2xl p-1.5 relative overflow-hidden">
+                    <div class="bg-black rounded-[28px] h-[480px] flex flex-col overflow-hidden text-slate-200 border border-slate-900 relative transition-opacity duration-300">
+
+                        <!-- CRM Trigger Overlay -->
+                        <div id="overlayReviewInvoice" class="absolute inset-0 bg-black/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center hidden">
+                            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl text-center shadow-2xl transform scale-110">
+                                <div class="text-emerald-400 text-3xl mb-2">🧾</div>
+                                <div class="text-white font-bold font-heading mb-1">Invoice #4029</div>
+                                <div class="text-emerald-500 text-xs font-mono font-bold px-3 py-1 bg-emerald-500/10 rounded-full inline-block">STATUS: PAID</div>
+                                <div class="text-slate-500 text-[10px] mt-4 font-mono">Initiating 2-Hour Delay...</div>
+                            </div>
+                        </div>
+
+                        <!-- Google Review Overlay -->
+                        <div id="reviewOverlayStandalone" class="absolute inset-0 bg-white z-40 flex flex-col transition-transform duration-500 transform translate-y-full text-slate-800">
+                            <div class="bg-slate-100 px-4 py-3 border-b border-slate-200 flex items-center gap-3">
+                                <span class="text-lg font-light">✕</span>
+                                <span class="font-semibold text-sm">Rate and review</span>
+                            </div>
+                            <div class="p-4 flex flex-col flex-1">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="h-10 w-10 bg-slate-200 rounded-full flex items-center justify-center text-xl">🏢</div>
+                                    <div>
+                                        <div class="font-bold text-sm">Your Shop</div>
+                                        <div class="text-xs text-slate-500">Fremont, OH</div>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-center gap-2 mb-4 text-4xl text-slate-300 transition-colors duration-300" id="reviewStarsStandalone">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                </div>
+
+                                <div class="border border-slate-300 rounded-lg p-3 min-h-[100px] text-sm text-slate-400 mb-4 transition-colors" id="reviewTextStandalone">
+                                    Share details of your own experience at this place
+                                </div>
+
+                                <div class="mt-auto flex justify-end">
+                                    <button id="postReviewBtnStandalone" class="bg-blue-600 text-white px-6 py-2 rounded-full font-medium text-sm transition-colors">Post</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-brand-charcoal px-4 py-3 border-b border-slate-800 flex items-center gap-3">
+                            <div class="h-7 w-7 rounded-full bg-indigo-500 text-[11px] font-bold flex items-center justify-center text-white font-mono">YS</div>
+                            <div>
+                                <div class="font-bold text-white text-xs">Your Shop</div>
+                                <div class="text-[9px] text-slate-400 font-mono">Customer's Phone</div>
+                            </div>
+                        </div>
+
+                        <div id="smsContainerReview" class="flex-1 p-4 overflow-y-auto space-y-3 flex flex-col justify-start pb-4"></div>
+
+                        <div id="typingReview" class="px-4 py-2 hidden mt-auto">
+                            <div class="bg-slate-900 border border-slate-800 rounded-2xl px-3 py-2 w-12 flex gap-1 justify-center">
+                                <div class="w-1.5 h-1.5 rounded-full bg-slate-500 typing-dot"></div>
+                                <div class="w-1.5 h-1.5 rounded-full bg-slate-500 typing-dot"></div>
+                                <div class="w-1.5 h-1.5 rounded-full bg-slate-500 typing-dot"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logic & Buttons -->
+            <div class="space-y-6 order-1 lg:order-2">
+                <div>
+                    <span class="text-xs font-bold text-indigo-400 uppercase tracking-widest font-mono">Interactive Proof</span>
+                    <h2 class="font-heading text-3xl font-bold text-white mt-2">The Magic of Timing</h2>
+                    <p class="text-sm text-slate-400 mt-4 leading-relaxed">
+                        If you ask for a review too early, it's annoying. If you ask a week later, they forget. By pulling the webhook exactly 2 hours after your tech closes the invoice, we catch the customer while they are still happy their problem is solved.
+                    </p>
+                </div>
+
+                <button id="btnSimReview" onclick="runStandaloneReviewSim()" class="w-full sm:w-auto py-3.5 px-8 rounded-xl font-bold text-sm bg-indigo-600 hover:bg-indigo-500 text-white shadow-[0_0_15px_rgba(79,70,229,0.3)] transition mt-2">
+                    ▶ Simulate "Invoice Paid" Trigger
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-900 bg-black">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-3xl font-bold text-white">Transparent Pricing</h2>
+                <p class="text-sm text-slate-400 mt-2">Boost your Maps ranking and out-convert the competition.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- The Module -->
+                <div class="bg-brand-charcoal border border-slate-800 rounded-3xl p-8 shadow-xl flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-heading text-xl font-bold text-white">Review Engine Module</h3>
+                        <p class="text-xs text-slate-500 mt-2">Standalone installation into your CRM.</p>
+
+                        <div class="mt-6 border-b border-slate-800 pb-6 mb-6">
+                            <div class="text-sm text-slate-400 font-mono uppercase mb-1">Setup Fee</div>
+                            <div class="font-heading text-4xl font-black text-white">$750 <span class="text-sm text-slate-500 font-sans font-normal">one-time</span></div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <div class="text-sm text-slate-400 font-mono uppercase mb-1">Monthly Management</div>
+                                <div class="font-heading text-2xl font-bold text-white">$150 <span class="text-sm text-slate-500 font-sans font-normal">/ mo</span></div>
+                                <div class="text-[10px] text-slate-500 mt-1 font-mono">Requires 6-mo minimum for telecom compliance.</div>
+                            </div>
+                            <div class="bg-black border border-slate-800 p-3 rounded-lg flex justify-between items-center mt-2">
+                                <span class="text-xs text-white font-bold">Annual Upfront</span>
+                                <span class="text-xs font-bold text-indigo-400">$1,500/yr (Save $300)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#contact" class="block text-center w-full py-3 mt-8 rounded-xl font-bold text-sm bg-slate-800 hover:bg-slate-700 text-white transition">Book Module Setup</a>
+                </div>
+
+                <!-- The Upsell -->
+                <div class="bg-gradient-to-br from-brand-charcoal to-black border-2 border-brand-cyan/50 rounded-3xl p-8 shadow-[0_0_30px_rgba(0,229,255,0.1)] flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-brand-cyan text-black text-[10px] font-bold px-4 py-1.5 rounded-bl-xl font-mono tracking-wider">
+                        UPGRADE
+                    </div>
+                    <div>
+                        <h3 class="font-heading text-xl font-bold text-brand-cyan">The Growth Engine Bundle</h3>
+                        <p class="text-xs text-slate-400 mt-2">Get the Review Engine AND our Missed-Call Rescue + Quote Recovery.</p>
+
+                        <div class="mt-6 border-b border-slate-800 pb-6 mb-6">
+                            <div class="text-sm text-slate-400 font-mono uppercase mb-1">Setup Fee</div>
+                            <div class="font-heading text-4xl font-black text-white">$2,500 <span class="text-sm text-slate-500 font-sans font-normal">one-time</span></div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <div class="text-sm text-slate-400 font-mono uppercase mb-1">Monthly Management</div>
+                                <div class="font-heading text-2xl font-bold text-white">$297 <span class="text-sm text-slate-500 font-sans font-normal">/ mo</span></div>
+                                <div class="text-[10px] text-slate-500 mt-1 font-mono">Requires 6-mo minimum for telecom compliance.</div>
+                            </div>
+                            <div class="bg-brand-cyan/10 border border-brand-cyan/30 p-3 rounded-lg flex justify-between items-center mt-2">
+                                <span class="text-xs text-white font-bold">Annual Upfront</span>
+                                <span class="text-xs font-bold text-brand-cyan">$2,970/yr (Save $594)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="growth-bundle.html" class="block text-center w-full py-3 mt-8 rounded-xl font-bold text-sm bg-brand-cyan hover:bg-cyan-400 text-black shadow-lg transition">View Bundle Details</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium AI Cross-Sell -->
+    <section class="py-12 px-4 sm:px-6 lg:px-8 bg-black border-b border-slate-900">
+        <div class="max-w-4xl mx-auto bg-gradient-to-r from-brand-charcoal to-black border border-brand-ai/30 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-brand-ai/10 blur-[50px] rounded-full pointer-events-none"></div>
+            <div>
+                <div class="inline-flex items-center gap-2 bg-brand-ai/10 text-brand-ai px-2 py-1 rounded text-[10px] font-bold font-mono uppercase tracking-wider mb-2 border border-brand-ai/20">
+                    Scale Beyond Automations
+                </div>
+                <h3 class="font-heading text-xl sm:text-2xl font-bold text-white mb-2">Need a fully autonomous AI Receptionist?</h3>
+                <p class="text-sm text-slate-400 max-w-lg">We custom-engineer human-sounding AI Voice Agents that answer live phone calls, check your inventory, book estimates, and route emergencies. Trained strictly on your business data.</p>
+            </div>
+            <a href="ai-assistant.html" class="shrink-0 w-full sm:w-auto text-center bg-brand-charcoal border border-brand-ai hover:bg-brand-ai hover:text-white text-brand-ai font-bold text-sm px-6 py-3 rounded-xl transition-all duration-300">
+                Listen to a Live Call Demo
+            </a>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 px-4 sm:px-6 lg:px-8 bg-brand-charcoal/20">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-10">
+                <h2 class="font-heading text-2xl font-bold text-white">Common Questions</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="space-y-4">
+                    <details class="group bg-brand-charcoal border border-slate-800 rounded-xl cursor-pointer">
+                        <summary class="font-semibold text-sm text-white p-4 flex justify-between">Does it ask angry customers for reviews? <span class="text-indigo-400">▼</span></summary>
+                        <div class="px-4 pb-4 text-xs text-slate-400 border-t border-slate-800 pt-3">
+                            We can install a filtering tag in your CRM. If a job goes poorly, your dispatcher simply tags the invoice as "No-Review," and the script will bypass that customer entirely.
+                        </div>
+                    </details>
+
+                    <details class="group bg-brand-charcoal border border-slate-800 rounded-xl cursor-pointer">
+                        <summary class="font-semibold text-sm text-white p-4 flex justify-between">Do I need to send the texts manually? <span class="text-indigo-400">▼</span></summary>
+                        <div class="px-4 pb-4 text-xs text-slate-400 border-t border-slate-800 pt-3">
+                            Never. The entire point is that it requires zero human input. It runs in the background of Jobber, QuickBooks, or ServiceTitan, sending the texts automatically based on invoice status.
+                        </div>
+                    </details>
+                </div>
+
+                <div class="space-y-4">
+                    <details class="group bg-brand-charcoal border border-brand-cyan/30 rounded-xl cursor-pointer open:border-brand-cyan transition-colors" open>
+                        <summary class="font-semibold text-sm text-white p-4 flex justify-between">Should I get this module, or the Bundle? <span class="text-brand-cyan">▼</span></summary>
+                        <div class="px-4 pb-4 text-xs text-slate-300 border-t border-slate-800 pt-3 leading-relaxed">
+                            Reviews help you win the job <em>after</em> the customer finds you. But if you aren't answering the phone when they call, or following up on their quotes, you'll still lose money. The <a href="growth-bundle.html" class="text-brand-cyan font-bold hover:underline">Growth Engine Bundle</a> fixes all three leaks at once.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="contact" class="py-20 px-4 sm:px-6 border-b border-slate-900 bg-black">
+        <div class="max-w-xl mx-auto bg-brand-charcoal border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
+            <div class="text-center mb-6">
+                <h2 class="font-heading text-xl sm:text-2xl font-bold text-white">Start Building Your Reputation</h2>
+                <p class="text-xs text-slate-400 mt-2">Drop your details below. We'll send you a custom Loom video showing how this connects to your current software.</p>
+            </div>
+            <form onsubmit="event.preventDefault(); alert('Request sent! We will reach out shortly.');" class="space-y-4 text-xs">
+                <div>
+                    <input type="text" placeholder="Company Name" required class="w-full bg-black border border-slate-800 rounded-xl px-4 py-3.5 text-white outline-none focus:border-indigo-500">
+                </div>
+                <div>
+                    <input type="text" placeholder="Which software do you use for invoicing?" required class="w-full bg-black border border-slate-800 rounded-xl px-4 py-3.5 text-white outline-none focus:border-indigo-500">
+                </div>
+                <button type="submit" class="w-full py-3.5 rounded-xl font-bold text-sm bg-indigo-600 hover:bg-indigo-500 text-white shadow-[0_0_15px_rgba(79,70,229,0.3)] mt-2 transition">
+                    Request System Walkthrough
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="py-6 text-center text-[10px] text-slate-600 bg-black font-mono">
+        © 2026 Apex Local Automation LLC. Based locally in Fremont, OH.
+    </footer>
+</body>
+</html>

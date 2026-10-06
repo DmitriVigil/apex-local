@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Architecture | Apex Local Automation</title>
+
+    <link rel="stylesheet" href="asset/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            heading: ['Space Grotesk', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              cyan: '#00E5FF',
+              charcoal: '#0D0D12',
+              alert: '#FF3D00',
+              db: '#8B5CF6' /* Violet */
+            }
+          }
+        }
+      }
+    }</script>
+    <script src="asset/js/app.js" defer></script>
+</head>
+<body class="bg-black text-slate-300 font-sans antialiased selection:bg-brand-db selection:text-white">
+
+    <!-- Header -->
+    <header class="border-b border-slate-800/80 bg-black/90 backdrop-blur sticky top-0 z-50 px-4 sm:px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition">
+                    <div class="h-9 w-9 rounded-lg bg-brand-cyan/10 text-brand-cyan flex items-center justify-center font-black text-xl border border-brand-cyan/30">⚡</div>
+                    <div>
+                        <span class="font-heading font-bold text-white text-base tracking-tight block leading-none">Apex Local</span>
+                        <span class="text-[11px] text-slate-500 font-mono uppercase tracking-wider">Automation</span>
+                    </div>
+                </a>
+            </div>
+            <div class="flex items-center gap-5">
+                <a href="#demo" class="hidden sm:block text-xs font-semibold text-slate-400 hover:text-white transition">See It Work</a>
+                <a href="#pricing" class="hidden sm:block text-xs font-semibold text-slate-400 hover:text-white transition">Pricing</a>
+                <a href="#faq" class="hidden sm:block text-xs font-semibold text-slate-400 hover:text-white transition">FAQ</a>
+                <a href="#contact" class="bg-brand-db hover:bg-violet-500 text-white text-xs font-bold px-4 py-2.5 rounded-lg shadow-[0_0_15px_rgba(139,92,246,0.3)] transition">Request Blueprint</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-16 pb-20 px-4 sm:px-6 lg:px-8 border-b border-slate-900 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-charcoal via-black to-black">
+        <div class="max-w-4xl mx-auto text-center space-y-6 fade-in">
+            <div class="inline-flex items-center gap-2 bg-brand-charcoal border border-slate-800 px-4 py-1.5 rounded-full text-xs font-medium text-slate-400 font-mono">
+                <span class="w-2 h-2 rounded-full bg-brand-db animate-pulse shadow-[0_0_8px_rgba(139,92,246,0.8)]"></span>
+                The Spreadsheet Killer
+            </div>
+            <h1 class="font-heading text-4xl sm:text-5xl lg:text-7xl font-black text-white tracking-tight leading-[1.1]">
+                Stop Running Your Business on <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-db to-fuchsia-400">Fragile Excel Sheets.</span>
+            </h1>
+            <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                Spreadsheets are built for math, not for workflows. We migrate your chaotic, color-coded workbooks into bulletproof, relational databases (Airtable or Custom SQL) with strict permissions and automated views for your team.
+            </p>
+        </div>
+    </section>
+
+    <!-- Interactive Sandbox -->
+    <section id="demo" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-900 bg-brand-charcoal/30">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <!-- Database UI Container -->
+            <div class="flex justify-center lg:justify-start order-2 lg:order-1">
+                <div class="w-full max-w-[480px] bg-brand-charcoal border-[6px] border-slate-800 rounded-[20px] shadow-2xl p-1.5 relative overflow-hidden">
+                    <div class="bg-black rounded-[12px] h-[360px] flex flex-col overflow-hidden text-slate-200 border border-slate-900 relative">
+
+                        <!-- State 1: Messy Excel -->
+                        <div id="excelState" class="absolute inset-0 bg-white flex flex-col z-20 transition-opacity duration-500 text-black">
+                            <div class="bg-green-700 text-white px-3 py-2 text-xs font-bold flex items-center gap-2">
+                                <span class="bg-white text-green-700 px-1 rounded">X</span> Master_Tracker_V4_FINAL.xlsx
+                            </div>
+                            <div class="flex border-b border-slate-300 bg-slate-100 text-[10px] font-bold text-center">
+                                <div class="w-8 border-r border-slate-300"></div>
+                                <div class="flex-1 border-r border-slate-300 p-1">CLIENT</div>
+                                <div class="flex-1 border-r border-slate-300 p-1">STATUS</div>
+                                <div class="flex-1 border-r border-slate-300 p-1">TOTAL</div>
+                                <div class="flex-1 p-1">NOTES</div>
+                            </div>
+                            <div class="flex flex-col text-[10px] flex-1">
+                                <div class="flex border-b border-slate-200 h-8 items-center">
+                                    <div class="w-8 border-r border-slate-200 text-center text-slate-400 bg-slate-50 h-full flex items-center justify-center">1</div>
+                                    <div class="flex-1 border-r border-slate-200 px-2">Smith Corp</div>
+                                    <div class="flex-1 border-r border-slate-200 px-2 bg-yellow-200">Pending??</div>
+                                    <div class="flex-1 border-r border-slate-200 px-2">$4,500</div>
+                                    <div class="flex-1 px-2 text-red-500 italic">Call back Tuesday</div>
+                                </div>
+                                <div class="flex border-b border-slate-200 h-8 items-center">
+                                    <div class="w-8 border-r border-slate-200 text-center text-slate-400 bg-slate-50 h-full flex items-center justify-center">2</div>
+                                    <div class="flex-1 border-r border-slate-200 px-2">Johnson LLC</div>
+                                    <div class="flex-1 border-r border-slate-200 px-2 bg-green-200">Done</div>
+                                    <div class="flex-1 border-r border-slate-200 px-2 font-bold text-red-600">#REF!</div>
+                                    <div class="flex-1 px-2 text-slate-400">Paid check</div>
+                                </div>
+                                <div class="flex border-b border-slate-200 h-8 items-center">
+                                    <div class="w-8 border-r border-slate-200 text-center text-slate-400 bg-slate-50 h-full flex items-center justify-center">3</div>
+                                    <div class="flex-1 border-r border-slate-200 px-2">Davis Group</div>
+                                    <div class="flex-1 border-r border-slate-200 px-2"></div>
+                                    <div class="flex-1 border-r border-slate-200 px-2">$1,200</div>
+                                    <div class="flex-1 px-2">Who is handling this?</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- State 2: Migration Overlay -->
+                        <div id="migrationState" class="absolute inset-0 bg-brand-db/90 z-30 flex flex-col items-center justify-center hidden opacity-0 transition-opacity duration-500">
+                            <div class="h-10 w-10 border-4 border-white border-t-transparent rounded-full animate-spin mb-4"></div>
+                            <div class="text-white font-bold font-heading text-lg">Migrating Data...</div>
+                            <div class="text-brand-db text-[10px] font-mono mt-2 bg-white/20 px-3 py-1 rounded">Structuring Relational Links</div>
+                        </div>
+
+                        <!-- State 3: Clean Database -->
+                        <div id="dbState" class="absolute inset-0 bg-black flex flex-col z-10 text-slate-200">
+                            <div class="bg-slate-900 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+                                <div class="font-bold text-sm text-white flex items-center gap-2">
+                                    <span class="text-brand-db">🗄️</span> Apex Relational DB
+                                </div>
+                                <div class="text-[10px] text-slate-400 font-mono border border-slate-700 px-2 py-1 rounded">View: Active Projects</div>
+                            </div>
+                            <div class="p-4 space-y-3 flex-1 overflow-y-auto">
+
+                                <!-- DB Record 1 -->
+                                <div class="bg-brand-charcoal border border-slate-800 rounded-xl p-3 flex items-center justify-between shadow-sm">
+                                    <div>
+                                        <div class="font-bold text-white text-xs mb-1">Smith Corp</div>
+                                        <div class="text-[10px] text-slate-500 font-mono">ID: PRJ-1042 • $4,500.00</div>
+                                    </div>
+                                    <div class="bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 px-2 py-1 rounded text-[9px] font-bold tracking-wide">PENDING REVIEW</div>
+                                </div>
+
+                                <!-- DB Record 2 -->
+                                <div class="bg-brand-charcoal border border-slate-800 rounded-xl p-3 flex items-center justify-between shadow-sm">
+                                    <div>
+                                        <div class="font-bold text-white text-xs mb-1">Johnson LLC</div>
+                                        <div class="text-[10px] text-slate-500 font-mono">ID: PRJ-1043 • $3,250.00</div>
+                                    </div>
+                                    <div class="bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 px-2 py-1 rounded text-[9px] font-bold tracking-wide">COMPLETED & PAID</div>
+                                </div>
+
+                                <!-- DB Record 3 -->
+                                <div class="bg-brand-charcoal border border-slate-800 rounded-xl p-3 flex items-center justify-between shadow-sm">
+                                    <div>
+                                        <div class="font-bold text-white text-xs mb-1">Davis Group</div>
+                                        <div class="text-[10px] text-slate-500 font-mono">ID: PRJ-1044 • $1,200.00</div>
+                                    </div>
+                                    <div class="bg-brand-db/10 text-brand-db border border-brand-db/30 px-2 py-1 rounded text-[9px] font-bold tracking-wide">ASSIGNED: J. MASON</div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logic & Buttons -->
+            <div class="space-y-6 order-1 lg:order-2">
+                <div>
+                    <span class="text-xs font-bold text-brand-db uppercase tracking-widest font-mono">Interactive Proof</span>
+                    <h2 class="font-heading text-3xl font-bold text-white mt-2">Structure Prevents Disaster</h2>
+                    <p class="text-sm text-slate-400 mt-4 leading-relaxed">
+                        When multiple employees edit the same spreadsheet, data gets deleted, formatting breaks, and formulas throw #REF! errors. By migrating to a structured database, data is strictly typed. You create automated views so your floor workers only see what they need to do, while you see the high-level financials.
+                    </p>
+                </div>
+
+                <div class="space-y-3 mt-4">
+                    <div class="bg-black border border-slate-800 p-4 rounded-xl flex gap-3">
+                        <div class="text-xl">1️⃣</div>
+                        <div>
+                            <div class="font-bold text-white text-sm">Strict Data Typing</div>
+                            <div class="text-xs text-slate-500 mt-1">A phone number field only accepts phone numbers. Statuses are locked to specific dropdowns. No more guessing what "Pending??" means.</div>
+                        </div>
+                    </div>
+                    <div class="bg-black border border-slate-800 p-4 rounded-xl flex gap-3">
+                        <div class="text-xl">2️⃣</div>
+                        <div>
+                            <div class="font-bold text-white text-sm">Relational Links</div>
+                            <div class="text-xs text-slate-500 mt-1">Instead of typing a client's name 50 times, you link the "Invoice" record directly to the "Client" record, keeping data perfectly synced.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="btnSimDb" onclick="runDbSim()" class="w-full sm:w-auto py-3.5 px-8 rounded-xl font-bold text-sm bg-brand-db hover:bg-violet-500 text-white shadow-[0_0_15px_rgba(139,92,246,0.3)] transition mt-2">
+                    ▶ Migrate Database Simulation
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-900 bg-black">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-3xl font-bold text-white">Custom Engineering Pricing</h2>
+                <p class="text-sm text-slate-400 mt-2">Priced by the value of the problem solved, not by the hour.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Step 1 -->
+                <div class="bg-brand-charcoal border border-slate-800 rounded-3xl p-8 shadow-xl flex flex-col relative overflow-hidden">
+                    <div class="text-brand-db text-xs font-bold font-mono tracking-widest mb-2">STEP 1</div>
+                    <h3 class="font-heading text-xl font-bold text-white">Architecture Blueprint</h3>
+                    <p class="text-xs text-slate-400 mt-2 h-16">We analyze your existing messy spreadsheets and map out the relational architecture (tables, fields, linked records, and user permissions) required to fix it.</p>
+
+                    <div class="mt-6 border-t border-slate-800 pt-6">
+                        <div class="text-sm text-slate-400 font-mono uppercase mb-1">Discovery Fee</div>
+                        <div class="font-heading text-4xl font-black text-white">$500 <span class="text-sm text-slate-500 font-sans font-normal">one-time</span></div>
+                    </div>
+                    <div class="text-[10px] text-brand-db font-mono mt-4 bg-brand-db/10 px-3 py-2 rounded-lg">
+                        * 100% of this fee is credited toward your custom build if you approve the blueprint.
+                    </div>
+                </div>
+
+                <!-- Step 2 & 3 -->
+                <div class="bg-gradient-to-br from-brand-charcoal to-black border-2 border-brand-db/50 rounded-3xl p-8 shadow-[0_0_30px_rgba(139,92,246,0.1)] flex flex-col relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-brand-db text-white text-[10px] font-bold px-4 py-1.5 rounded-bl-xl font-mono tracking-wider">
+                        THE BUILD
+                    </div>
+                    <div class="text-brand-db text-xs font-bold font-mono tracking-widest mb-2">STEP 2</div>
+                    <h3 class="font-heading text-xl font-bold text-white">Custom Implementation</h3>
+                    <p class="text-xs text-slate-400 mt-2 h-16">We construct the database, import your legacy data safely, configure automated views, and provide training for your staff.</p>
+
+                    <div class="mt-6 border-y border-slate-800 py-6">
+                        <div class="text-sm text-slate-400 font-mono uppercase mb-1">Build Fee (Varies)</div>
+                        <div class="font-heading text-3xl font-black text-white">Starts at $3,500</div>
+                    </div>
+
+                    <div class="mt-6">
+                        <div class="text-sm text-slate-400 font-mono uppercase mb-1">Hosting & Base Maintenance</div>
+                        <div class="font-heading text-2xl font-bold text-white">From $299 <span class="text-sm text-slate-500 font-sans font-normal">/ mo</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center">
+                <a href="#contact" class="inline-block bg-brand-db hover:bg-violet-500 text-white font-bold text-sm px-8 py-4 rounded-xl shadow-[0_0_20px_rgba(139,92,246,0.3)] transition">
+                    Book an Architecture Call
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium AI Cross-Sell -->
+    <section class="py-12 px-4 sm:px-6 lg:px-8 bg-black border-b border-slate-900">
+        <div class="max-w-4xl mx-auto bg-gradient-to-r from-brand-charcoal to-black border border-brand-ai/30 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-brand-ai/10 blur-[50px] rounded-full pointer-events-none"></div>
+            <div>
+                <div class="inline-flex items-center gap-2 bg-brand-ai/10 text-brand-ai px-2 py-1 rounded text-[10px] font-bold font-mono uppercase tracking-wider mb-2 border border-brand-ai/20">
+                    Scale Beyond Automations
+                </div>
+                <h3 class="font-heading text-xl sm:text-2xl font-bold text-white mb-2">Need a fully autonomous AI Receptionist?</h3>
+                <p class="text-sm text-slate-400 max-w-lg">We custom-engineer human-sounding AI Voice Agents that answer live phone calls, check your inventory, book estimates, and route emergencies. Trained strictly on your business data.</p>
+            </div>
+            <a href="ai-assistant.html" class="shrink-0 w-full sm:w-auto text-center bg-brand-charcoal border border-brand-ai hover:bg-brand-ai hover:text-white text-brand-ai font-bold text-sm px-6 py-3 rounded-xl transition-all duration-300">
+                Listen to a Live Call Demo
+            </a>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 px-4 sm:px-6 lg:px-8 bg-brand-charcoal/20">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-10">
+                <h2 class="font-heading text-2xl font-bold text-white">Common Questions</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="space-y-4">
+                    <details class="group bg-brand-charcoal border border-slate-800 rounded-xl cursor-pointer">
+                        <summary class="font-semibold text-sm text-white p-4 flex justify-between">Why do you charge a Blueprint fee? <span class="text-brand-db">▼</span></summary>
+                        <div class="px-4 pb-4 text-xs text-slate-400 border-t border-slate-800 pt-3">
+                            Designing a database architecture correctly from day one prevents catastrophic data loss later. The blueprint fee covers our engineering time to evaluate your specific workflows, map the data relations, and ensure the system will scale with your business before we build.
+                        </div>
+                    </details>
+
+                    <details class="group bg-brand-charcoal border border-slate-800 rounded-xl cursor-pointer">
+                        <summary class="font-semibold text-sm text-white p-4 flex justify-between">Do you use Airtable or Custom SQL? <span class="text-brand-db">▼</span></summary>
+                        <div class="px-4 pb-4 text-xs text-slate-400 border-t border-slate-800 pt-3">
+                            It depends on your scale. For 90% of local businesses, we build on top of Airtable because it provides an incredible, user-friendly UI out of the box while maintaining strict relational logic underneath. If you are handling millions of rows or highly sensitive compliance data, we will design a custom SQL/PostgreSQL backend.
+                        </div>
+                    </details>
+                </div>
+
+                <div class="space-y-4">
+                    <details class="group bg-brand-charcoal border border-slate-800 rounded-xl cursor-pointer">
+                        <summary class="font-semibold text-sm text-white p-4 flex justify-between">Will my employees know how to use it? <span class="text-brand-db">▼</span></summary>
+                        <div class="px-4 pb-4 text-xs text-slate-400 border-t border-slate-800 pt-3">
+                            Yes. That is the beauty of our design. We create "Interfaces" and targeted views. A delivery driver doesn't see a giant spreadsheet; they just see a single clean form with a button that says "Mark Delivered." We eliminate the clutter so your team can't make mistakes.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="contact" class="py-20 px-4 sm:px-6 border-b border-slate-900 bg-black">
+        <div class="max-w-xl mx-auto bg-brand-charcoal border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
+            <div class="text-center mb-6">
+                <h2 class="font-heading text-xl sm:text-2xl font-bold text-white">Kill the Spreadsheet</h2>
+                <p class="text-xs text-slate-400 mt-2">Tell us briefly about the process you are trying to untangle, and we will schedule an architecture call.</p>
+            </div>
+            <form onsubmit="event.preventDefault(); alert('Request sent! We will reach out shortly.');" class="space-y-4 text-xs">
+                <div>
+                    <input type="text" placeholder="Company Name" required class="w-full bg-black border border-slate-800 rounded-xl px-4 py-3.5 text-white outline-none focus:border-brand-db">
+                </div>
+                <div>
+                    <textarea rows="3" placeholder="What workflow are you currently managing in Excel/Sheets?" required class="w-full bg-black border border-slate-800 rounded-xl px-4 py-3.5 text-white outline-none focus:border-brand-db resize-none"></textarea>
+                </div>
+                <button type="submit" class="w-full py-3.5 rounded-xl font-bold text-sm bg-brand-db hover:bg-violet-500 text-white shadow-[0_0_15px_rgba(139,92,246,0.3)] mt-2 transition">
+                    Request Architecture Blueprint
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="py-6 text-center text-[10px] text-slate-600 bg-black font-mono">
+        © 2026 Apex Local Automation LLC. Based locally in Fremont, OH.
+    </footer>
+</body>
+</html>

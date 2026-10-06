@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missed-Call Lead Rescue | Apex Local Automation</title>
+
+    <link rel="stylesheet" href="asset/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+                    tailwind.config = {
+                      theme: {
+                        extend: {
+                          fontFamily: {
+                            sans: ['Outfit', 'sans-serif'],
+                            heading: ['Space Grotesk', 'sans-serif'],
+                            mono: ['JetBrains Mono', 'monospace'],
+                          },
+                          colors: {
+                            brand: {
+                              cyan: '#00E5FF',
+                              charcoal: '#0D0D12',
+                              alert: '#FF3D00'
+                            }
+                          }
+                        }
+                      }
+                    }
+    </script>
+    <script src="asset/js/app.js" defer></script>
+</head>
+<body class="bg-black text-slate-300 font-sans antialiased selection:bg-brand-alert selection:text-white">
+
+    <!-- Header -->
+    <header class="border-b border-slate-800/80 bg-black/90 backdrop-blur sticky top-0 z-50 px-4 sm:px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition">
+                    <div class="h-9 w-9 rounded-lg bg-brand-cyan/10 text-brand-cyan flex items-center justify-center font-black text-xl border border-brand-cyan/30">⚡</div>
+                    <div>
+                        <span class="font-heading font-bold text-white text-base tracking-tight block leading-none">Apex Local</span>
+                        <span class="text-[11px] text-slate-500 font-mono uppercase tracking-wider">Automation</span>
+                    </div>
+                </a>
+            </div>
+            <div class="flex items-center gap-4 sm:gap-5">
+                <!-- New Global AI Link -->
+                <a href="ai-assistant.html" class="hidden md:flex items-center gap-1.5 text-xs font-bold text-brand-ai hover:text-rose-400 transition">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-ai animate-pulse"></span>
+                    Premium AI Voice
+                </a>
+
+                <a href="#demo" class="hidden sm:block text-xs font-semibold text-slate-400 hover:text-white transition">See It Work</a>
+                <a href="#pricing" class="hidden sm:block text-xs font-semibold text-slate-400 hover:text-white transition">Pricing</a>
+
+                <!-- Keep the button color specific to whatever page this header is pasted on -->
+                <a href="#contact" class="bg-white hover:bg-slate-200 text-black text-xs font-bold px-4 py-2.5 rounded-lg shadow-lg transition">Book Audit</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-16 pb-20 px-4 sm:px-6 lg:px-8 border-b border-slate-900 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-charcoal via-black to-black">
+        <div class="max-w-4xl mx-auto text-center space-y-6 fade-in">
+            <div class="inline-flex items-center gap-2 bg-brand-charcoal border border-slate-800 px-4 py-1.5 rounded-full text-xs font-medium text-slate-400 font-mono">
+                <span class="w-2 h-2 rounded-full bg-brand-alert animate-pulse shadow-[0_0_8px_rgba(255,61,0,0.8)]"></span>
+                The "Front Door" Lead Catcher
+            </div>
+            <h1 class="font-heading text-4xl sm:text-5xl lg:text-7xl font-black text-white tracking-tight leading-[1.1]">
+                Stop Donating Customers To <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-alert to-orange-400">Your Competitors.</span>
+            </h1>
+            <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                When your dispatch is slammed, or you are under a sink and can't answer the phone, customers do not leave voicemails. They hang up and call the next guy on Google. This system catches the missed call and instantly texts them to lock them in.
+            </p>
+        </div>
+    </section>
+
+    <!-- Interactive Sandbox -->
+    <section id="demo" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-900 bg-brand-charcoal/30">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <!-- Phone UI Container -->
+            <div class="flex justify-center lg:justify-start order-2 lg:order-1">
+                <div class="w-full max-w-[320px] bg-brand-charcoal border-[6px] border-slate-800 rounded-[36px] shadow-2xl p-1.5 relative overflow-hidden">
+                    <div class="bg-black rounded-[28px] h-[480px] flex flex-col overflow-hidden text-slate-200 border border-slate-900 relative transition-opacity duration-300" id="phoneBody">
+
+                        <!-- Calling Overlay -->
+                        <div id="overlayMissedCall" class="absolute inset-0 bg-black z-50 flex flex-col items-center pt-12 hidden">
+                            <div class="text-sm text-slate-500 mb-1 font-mono">Calling...</div>
+                            <div class="font-heading text-xl font-bold text-white mb-6">Your Shop</div>
+                            <div class="h-16 w-16 rounded-full bg-slate-900 flex items-center justify-center text-2xl mb-8 border border-slate-800">🏢</div>
+                            <div class="text-[10px] text-brand-alert font-bold animate-pulse font-mono">Missed - Sent to Voicemail</div>
+                        </div>
+
+                        <!-- Transition Overlay -->
+                        <div id="transitionOverlay" class="absolute inset-0 bg-brand-cyan z-50 flex flex-col items-center justify-center hidden transform transition-transform duration-500 translate-y-full">
+                            <div class="text-black font-bold text-lg font-heading">Switching to Your View...</div>
+                            <div class="text-black/70 text-xs font-mono mt-2">Routing to CRM / Cell Phone</div>
+                        </div>
+
+                        <!-- Dynamic Phone Header -->
+                        <div id="phoneHeader" class="bg-brand-charcoal px-4 py-3 border-b border-slate-800 flex items-center gap-3 transition-colors duration-500">
+                            <div id="phoneIcon" class="h-7 w-7 rounded-full bg-brand-alert text-[11px] font-bold flex items-center justify-center text-white font-mono">YS</div>
+                            <div>
+                                <div id="phoneTitle" class="font-bold text-white text-xs">Your Shop</div>
+                                <div id="phoneSub" class="text-[9px] text-slate-400 font-mono">Customer's Phone View</div>
+                            </div>
+                        </div>
+
+                        <div id="smsContainerMissedCall" class="flex-1 p-4 overflow-y-auto space-y-3 flex flex-col justify-start pb-4 transition-opacity duration-300"></div>
+
+                        <div id="typingMissedCall" class="px-4 py-2 hidden mt-auto">
+                            <div class="bg-slate-900 border border-slate-800 rounded-2xl px-3 py-2 w-12 flex gap-1 justify-center">
+                                <div class="w-1.5 h-1.5 rounded-full bg-slate-500 typing-dot"></div>
+                                <div class="w-1.5 h-1.5 rounded-full bg-slate-500 typing-dot"></div>
+                                <div class="w-1.5 h-1.5 rounded-full bg-slate-500 typing-dot"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logic & Buttons -->
+            <div class="space-y-6 order-1 lg:order-2">
+                <div>
+                    <span class="text-xs font-bold text-brand-alert uppercase tracking-widest font-mono">Interactive Proof</span>
+                    <h2 class="font-heading text-3xl font-bold text-white mt-2">The 2-Part Rescue Operation</h2>
+                    <p class="text-sm text-slate-400 mt-4 leading-relaxed">
+                        First, our system automatically texts the customer to stop them from calling a competitor. Second, the system instantly routes their reply directly to your existing CRM (Jobber/ServiceTitan) or your personal cell phone so you can book the job when you're ready.
+                    </p>
+                </div>
+
+                <button id="btnSimMissedCall" onclick="runMissedCallSim()" class="w-full sm:w-auto py-3.5 px-8 rounded-xl font-bold text-sm bg-brand-alert hover:bg-orange-500 text-white shadow-[0_0_15px_rgba(255,61,0,0.3)] transition mt-2">
+                    ▶ Run Full Rescue Simulation
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-900 bg-black">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-3xl font-bold text-white">Transparent Pricing</h2>
+                <p class="text-sm text-slate-400 mt-2">One rescued job pays for the entire year.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- The Module -->
+                <div class="bg-brand-charcoal border border-slate-800 rounded-3xl p-8 shadow-xl flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-heading text-xl font-bold text-white">Missed-Call Module</h3>
+                        <p class="text-xs text-slate-500 mt-2">Standalone telecom installation.</p>
+
+                        <div class="mt-6 border-b border-slate-800 pb-6 mb-6">
+                            <div class="text-sm text-slate-400 font-mono uppercase mb-1">Setup Fee</div>
+                            <div class="font-heading text-4xl font-black text-white">$500 <span class="text-sm text-slate-500 font-sans font-normal">one-time</span></div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <div class="text-sm text-slate-400 font-mono uppercase mb-1">Monthly Management</div>
+                                <div class="font-heading text-2xl font-bold text-white">$99 <span class="text-sm text-slate-500 font-sans font-normal">/ mo</span></div>
+                                <div class="text-[10px] text-slate-500 mt-1 font-mono">Requires 6-mo minimum for telecom compliance.</div>
+                            </div>
+                            <div class="bg-black border border-slate-800 p-3 rounded-lg flex justify-between items-center mt-2">
+                                <span class="text-xs text-white font-bold">Annual Upfront</span>
+                                <span class="text-xs font-bold text-brand-alert">$990/yr (Save $198)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#contact" class="block text-center w-full py-3 mt-8 rounded-xl font-bold text-sm bg-slate-800 hover:bg-slate-700 text-white transition">Book Module Setup</a>
+                </div>
+
+                <!-- The Upsell -->
+                <div class="bg-gradient-to-br from-brand-charcoal to-black border-2 border-brand-cyan/50 rounded-3xl p-8 shadow-[0_0_30px_rgba(0,229,255,0.1)] flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-brand-cyan text-black text-[10px] font-bold px-4 py-1.5 rounded-bl-xl font-mono tracking-wider">
+                        UPGRADE
+                    </div>
+                    <div>
+                        <h3 class="font-heading text-xl font-bold text-brand-cyan">The Growth Engine Bundle</h3>
+                        <p class="text-xs text-slate-400 mt-2">Get Missed-Call Rescue AND our Quote Recovery + Google Review Engine.</p>
+
+                        <div class="mt-6 border-b border-slate-800 pb-6 mb-6">
+                            <div class="text-sm text-slate-400 font-mono uppercase mb-1">Setup Fee</div>
+                            <div class="font-heading text-4xl font-black text-white">$2,500 <span class="text-sm text-slate-500 font-sans font-normal">one-time</span></div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <div class="text-sm text-slate-400 font-mono uppercase mb-1">Monthly Management</div>
+                                <div class="font-heading text-2xl font-bold text-white">$297 <span class="text-sm text-slate-500 font-sans font-normal">/ mo</span></div>
+                                <div class="text-[10px] text-slate-500 mt-1 font-mono">Requires 6-mo minimum for telecom compliance.</div>
+                            </div>
+                            <div class="bg-brand-cyan/10 border border-brand-cyan/30 p-3 rounded-lg flex justify-between items-center mt-2">
+                                <span class="text-xs text-white font-bold">Annual Upfront</span>
+                                <span class="text-xs font-bold text-brand-cyan">$2,970/yr (Save $594)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="growth-bundle.html" class="block text-center w-full py-3 mt-8 rounded-xl font-bold text-sm bg-brand-cyan hover:bg-cyan-400 text-black shadow-lg transition">View Bundle Details</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium AI Cross-Sell -->
+    <section class="py-12 px-4 sm:px-6 lg:px-8 bg-black border-b border-slate-900">
+        <div class="max-w-4xl mx-auto bg-gradient-to-r from-brand-charcoal to-black border border-brand-ai/30 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-brand-ai/10 blur-[50px] rounded-full pointer-events-none"></div>
+            <div>
+                <div class="inline-flex items-center gap-2 bg-brand-ai/10 text-brand-ai px-2 py-1 rounded text-[10px] font-bold font-mono uppercase tracking-wider mb-2 border border-brand-ai/20">
+                    Scale Beyond Automations
+                </div>
+                <h3 class="font-heading text-xl sm:text-2xl font-bold text-white mb-2">Need a fully autonomous AI Receptionist?</h3>
+                <p class="text-sm text-slate-400 max-w-lg">We custom-engineer human-sounding AI Voice Agents that answer live phone calls, check your inventory, book estimates, and route emergencies. Trained strictly on your business data.</p>
+            </div>
+            <a href="ai-assistant.html" class="shrink-0 w-full sm:w-auto text-center bg-brand-charcoal border border-brand-ai hover:bg-brand-ai hover:text-white text-brand-ai font-bold text-sm px-6 py-3 rounded-xl transition-all duration-300">
+                Listen to a Live Call Demo
+            </a>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 px-4 sm:px-6 lg:px-8 bg-brand-charcoal/20">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-10">
+                <h2 class="font-heading text-2xl font-bold text-white">Common Questions</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="space-y-4">
+                    <details class="group bg-brand-charcoal border border-slate-800 rounded-xl cursor-pointer">
+                        <summary class="font-semibold text-sm text-white p-4 flex justify-between">Does this replace my business phone number? <span class="text-brand-alert">▼</span></summary>
+                        <div class="px-4 pb-4 text-xs text-slate-400 border-t border-slate-800 pt-3">
+                            No. We provide a clean, local Twilio tracking number that instantly forwards calls directly to your existing cell phone or office line. The system sits perfectly between your customer and your phone.
+                        </div>
+                    </details>
+
+                    <details class="group bg-brand-charcoal border border-slate-800 rounded-xl cursor-pointer">
+                        <summary class="font-semibold text-sm text-white p-4 flex justify-between">Why the 6-month minimum lock-in? <span class="text-brand-alert">▼</span></summary>
+                        <div class="px-4 pb-4 text-xs text-slate-400 border-t border-slate-800 pt-3">
+                            Federal telecommunications law now requires businesses to formally register their EINs with major carriers (AT&T, Verizon) to send automated SMS. The 6-month term ensures we cover the upfront labor and filing fees required to prevent your texts from being blocked as spam.
+                        </div>
+                    </details>
+                </div>
+
+                <div class="space-y-4">
+                    <details class="group bg-brand-charcoal border border-brand-cyan/30 rounded-xl cursor-pointer open:border-brand-cyan transition-colors" open>
+                        <summary class="font-semibold text-sm text-white p-4 flex justify-between">Should I get this module, or the Bundle? <span class="text-brand-cyan">▼</span></summary>
+                        <div class="px-4 pb-4 text-xs text-slate-300 border-t border-slate-800 pt-3 leading-relaxed">
+                            If your only problem is answering the phone, start here. But if you also struggle with following up on quotes and getting Google reviews, the <a href="growth-bundle.html" class="text-brand-cyan font-bold hover:underline">Growth Engine Bundle</a> gives you all three systems at a massive discount compared to buying them individually.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="contact" class="py-20 px-4 sm:px-6 border-b border-slate-900 bg-black">
+        <div class="max-w-xl mx-auto bg-brand-charcoal border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
+            <div class="text-center mb-6">
+                <h2 class="font-heading text-xl sm:text-2xl font-bold text-white">Stop Leaking Front-End Leads</h2>
+                <p class="text-xs text-slate-400 mt-2">Drop your details below and we will get your new smart number set up within 48 hours.</p>
+            </div>
+            <form onsubmit="event.preventDefault(); alert('Request sent! We will reach out shortly.');" class="space-y-4 text-xs">
+                <div>
+                    <input type="text" placeholder="Company Name" required class="w-full bg-black border border-slate-800 rounded-xl px-4 py-3.5 text-white outline-none focus:border-brand-alert">
+                </div>
+                <div>
+                    <input type="tel" placeholder="Current Business Phone Number" required class="w-full bg-black border border-slate-800 rounded-xl px-4 py-3.5 text-white outline-none focus:border-brand-alert">
+                </div>
+                <button type="submit" class="w-full py-3.5 rounded-xl font-bold text-sm bg-brand-alert hover:bg-orange-500 text-white shadow-[0_0_15px_rgba(255,61,0,0.3)] mt-2 transition">
+                    Request System Setup
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="py-6 text-center text-[10px] text-slate-600 bg-black font-mono">
+        © 2026 Apex Local Automation LLC. Based locally in Fremont, OH.
+    </footer>
+</body>
+</html>

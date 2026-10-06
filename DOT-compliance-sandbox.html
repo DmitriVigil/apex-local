@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOT Safety Tracker | Apex Local Automation</title>
+
+    <link rel="stylesheet" href="asset/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+            tailwind.config = {
+              theme: {
+                extend: {
+                  fontFamily: {
+                    sans: ['Outfit', 'sans-serif'],
+                    heading: ['Space Grotesk', 'sans-serif'],
+                    mono: ['JetBrains Mono', 'monospace'],
+                  },
+                  colors: {
+                    brand: {
+                      cyan: '#00E5FF',
+                      charcoal: '#0D0D12',
+                      alert: '#FF3D00',
+                      safety: '#F59E0B' /* DOT Amber */
+                    }
+                  }
+                }
+              }
+            }
+    </script>
+    <script src="asset/js/app.js" defer></script>
+</head>
+<body class="bg-black text-slate-300 font-sans antialiased selection:bg-brand-safety selection:text-black">
+
+    <!-- Header -->
+    <header class="border-b border-slate-800/80 bg-black/90 backdrop-blur sticky top-0 z-50 px-4 sm:px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition">
+                    <div class="h-9 w-9 rounded-lg bg-brand-cyan/10 text-brand-cyan flex items-center justify-center font-black text-xl border border-brand-cyan/30">⚡</div>
+                    <div>
+                        <span class="font-heading font-bold text-white text-base tracking-tight block leading-none">Apex Local</span>
+                        <span class="text-[11px] text-slate-500 font-mono uppercase tracking-wider">Automation</span>
+                    </div>
+                </a>
+            </div>
+            <div class="flex items-center gap-5">
+                <a href="#demo" class="hidden sm:block text-xs font-semibold text-slate-400 hover:text-white transition">See It Work</a>
+                <a href="#pricing" class="hidden sm:block text-xs font-semibold text-slate-400 hover:text-white transition">Pricing</a>
+                <a href="#faq" class="hidden sm:block text-xs font-semibold text-slate-400 hover:text-white transition">FAQ</a>
+                <a href="#contact" class="bg-brand-safety hover:bg-yellow-400 text-black text-xs font-bold px-4 py-2.5 rounded-lg shadow-[0_0_15px_rgba(245,158,11,0.3)] transition">Book Audit</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-16 pb-20 px-4 sm:px-6 lg:px-8 border-b border-slate-900 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-charcoal via-black to-black">
+        <div class="max-w-4xl mx-auto text-center space-y-6 fade-in">
+            <div class="inline-flex items-center gap-2 bg-brand-charcoal border border-slate-800 px-4 py-1.5 rounded-full text-xs font-medium text-slate-400 font-mono">
+                <span class="w-2 h-2 rounded-full bg-brand-safety animate-pulse shadow-[0_0_8px_rgba(245,158,11,0.8)]"></span>
+                Built for Trucking & Logistics Fleets
+            </div>
+            <h1 class="font-heading text-4xl sm:text-5xl lg:text-7xl font-black text-white tracking-tight leading-[1.1]">
+                Stop Grounding Trucks Over <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-safety to-yellow-300">Expired Med Cards.</span>
+            </h1>
+            <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                A single out-of-service violation costs thousands in fines and lost freight. We build a fully automated database that reads your driver expiration dates and texts them 60, 30, and 7 days before their CDL or Medical Card expires.
+            </p>
+        </div>
+    </section>
+
+    <!-- Interactive Sandbox -->
+    <section id="demo" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-900 bg-brand-charcoal/30">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <!-- Phone UI Container -->
+            <div class="flex justify-center lg:justify-start order-2 lg:order-1">
+                <div class="w-full max-w-[320px] bg-brand-charcoal border-[6px] border-slate-800 rounded-[36px] shadow-2xl p-1.5 relative overflow-hidden">
+                    <div class="bg-black rounded-[28px] h-[480px] flex flex-col overflow-hidden text-slate-200 border border-slate-900 relative transition-opacity duration-300">
+
+                        <!-- Dispatch Alert Toast -->
+                        <div id="dispatchToast" class="absolute top-4 left-4 right-4 bg-red-500/10 border border-red-500/50 backdrop-blur-md rounded-2xl p-4 z-40 hidden transform transition-all duration-300 translate-y-[-20px] opacity-0">
+                            <div class="text-red-500 text-2xl mb-2 text-center">⚠️</div>
+                            <div class="text-white text-sm font-bold text-center mb-1">Dispatch Alert Sent</div>
+                            <div class="text-red-200 text-[10px] text-center font-mono">Safety manager notified of pending 7-day expiration.</div>
+                        </div>
+
+                        <!-- SMS View -->
+                        <div class="bg-brand-charcoal px-4 py-3 border-b border-slate-800 flex items-center gap-3">
+                            <div class="h-7 w-7 rounded-full bg-brand-safety text-[11px] font-bold flex items-center justify-center text-black font-mono">DOT</div>
+                            <div>
+                                <div class="font-bold text-white text-xs">Fleet Safety Dept</div>
+                                <div class="text-[9px] text-slate-400 font-mono">Automated Compliance</div>
+                            </div>
+                        </div>
+
+                        <div id="smsContainerDot" class="flex-1 p-4 overflow-y-auto space-y-3 flex flex-col justify-start pb-4"></div>
+
+                        <div id="typingDot" class="px-4 py-2 hidden mt-auto">
+                            <div class="bg-slate-900 border border-slate-800 rounded-2xl px-3 py-2 w-12 flex gap-1 justify-center">
+                                <div class="w-1.5 h-1.5 rounded-full bg-slate-500 typing-dot"></div>
+                                <div class="w-1.5 h-1.5 rounded-full bg-slate-500 typing-dot"></div>
+                                <div class="w-1.5 h-1.5 rounded-full bg-slate-500 typing-dot"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logic & Buttons -->
+            <div class="space-y-6 order-1 lg:order-2">
+                <div>
+                    <span class="text-xs font-bold text-brand-safety uppercase tracking-widest font-mono">Interactive Proof</span>
+                    <h2 class="font-heading text-3xl font-bold text-white mt-2">The Escalation Timeline</h2>
+                    <p class="text-sm text-slate-400 mt-4 leading-relaxed">
+                        Your safety manager shouldn't be chasing drivers with spreadsheets. This script runs daily. It finds any driver within a specific expiration window and escalates the urgency automatically—eventually flagging dispatch if the driver ignores the warnings.
+                    </p>
+                </div>
+
+                <button id="btnSimDot" onclick="runDotSim()" class="w-full sm:w-auto py-3.5 px-8 rounded-xl font-bold text-sm bg-brand-safety hover:bg-yellow-400 text-black shadow-[0_0_15px_rgba(245,158,11,0.3)] transition mt-2">
+                    ▶ Simulate 60-Day Expiry Sequence
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-900 bg-black">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-3xl font-bold text-white">Transparent Pricing</h2>
+                <p class="text-sm text-slate-400 mt-2">Preventing one grounded truck pays for the system.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- The Module -->
+                <div class="bg-brand-charcoal border border-slate-800 rounded-3xl p-8 shadow-xl flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-heading text-xl font-bold text-white">DOT Safety Tracker</h3>
+                        <p class="text-xs text-slate-500 mt-2">Database setup and SMS logic routing.</p>
+
+                        <div class="mt-6 border-b border-slate-800 pb-6 mb-6">
+                            <div class="text-sm text-slate-400 font-mono uppercase mb-1">Setup Fee</div>
+                            <div class="font-heading text-4xl font-black text-white">$1,500 <span class="text-sm text-slate-500 font-sans font-normal">one-time</span></div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <div class="text-sm text-slate-400 font-mono uppercase mb-1">Monthly Hosting</div>
+                                <div class="font-heading text-2xl font-bold text-white">$149 <span class="text-sm text-slate-500 font-sans font-normal">/ mo</span></div>
+                                <div class="text-[10px] text-slate-500 mt-1 font-mono">Requires 6-mo minimum.</div>
+                            </div>
+                            <div class="bg-black border border-slate-800 p-3 rounded-lg flex justify-between items-center mt-2">
+                                <span class="text-xs text-white font-bold">Annual Upfront</span>
+                                <span class="text-xs font-bold text-brand-safety">$1,490/yr (Save $298)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#contact" class="block text-center w-full py-3 mt-8 rounded-xl font-bold text-sm bg-slate-800 hover:bg-slate-700 text-white transition">Book Module Setup</a>
+                </div>
+
+                <!-- The Upsell (Logistics Bundle) -->
+                <div class="bg-gradient-to-br from-brand-charcoal to-black border-2 border-brand-safety/50 rounded-3xl p-8 shadow-[0_0_30px_rgba(245,158,11,0.1)] flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-brand-safety text-black text-[10px] font-bold px-4 py-1.5 rounded-bl-xl font-mono tracking-wider">
+                        FLEET BUNDLE
+                    </div>
+                    <div>
+                        <h3 class="font-heading text-xl font-bold text-brand-safety">Fleet Operations Bundle</h3>
+                        <p class="text-xs text-slate-400 mt-2">Get the DOT Safety Tracker AND our automated PO & Invoice Reconciliation software.</p>
+
+                        <div class="mt-6 border-b border-slate-800 pb-6 mb-6">
+                            <div class="text-sm text-slate-400 font-mono uppercase mb-1">Setup Fee</div>
+                            <div class="font-heading text-4xl font-black text-white">$2,800 <span class="text-sm text-slate-500 font-sans font-normal">one-time</span></div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <div class="text-sm text-slate-400 font-mono uppercase mb-1">Monthly Management</div>
+                                <div class="font-heading text-2xl font-bold text-white">$295 <span class="text-sm text-slate-500 font-sans font-normal">/ mo</span></div>
+                                <div class="text-[10px] text-slate-500 mt-1 font-mono">Requires 6-mo minimum.</div>
+                            </div>
+                            <div class="bg-brand-safety/10 border border-brand-safety/30 p-3 rounded-lg flex justify-between items-center mt-2">
+                                <span class="text-xs text-white font-bold">Annual Upfront</span>
+                                <span class="text-xs font-bold text-brand-safety">$2,950/yr (Save $590)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#contact" class="block text-center w-full py-3 mt-8 rounded-xl font-bold text-sm bg-brand-safety hover:bg-yellow-400 text-black shadow-lg transition">Request Bundle Setup</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium AI Cross-Sell -->
+    <section class="py-12 px-4 sm:px-6 lg:px-8 bg-black border-b border-slate-900">
+        <div class="max-w-4xl mx-auto bg-gradient-to-r from-brand-charcoal to-black border border-brand-ai/30 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-brand-ai/10 blur-[50px] rounded-full pointer-events-none"></div>
+            <div>
+                <div class="inline-flex items-center gap-2 bg-brand-ai/10 text-brand-ai px-2 py-1 rounded text-[10px] font-bold font-mono uppercase tracking-wider mb-2 border border-brand-ai/20">
+                    Scale Beyond Automations
+                </div>
+                <h3 class="font-heading text-xl sm:text-2xl font-bold text-white mb-2">Need a fully autonomous AI Receptionist?</h3>
+                <p class="text-sm text-slate-400 max-w-lg">We custom-engineer human-sounding AI Voice Agents that answer live phone calls, check your inventory, book estimates, and route emergencies. Trained strictly on your business data.</p>
+            </div>
+            <a href="ai-assistant.html" class="shrink-0 w-full sm:w-auto text-center bg-brand-charcoal border border-brand-ai hover:bg-brand-ai hover:text-white text-brand-ai font-bold text-sm px-6 py-3 rounded-xl transition-all duration-300">
+                Listen to a Live Call Demo
+            </a>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 px-4 sm:px-6 lg:px-8 bg-brand-charcoal/20">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-10">
+                <h2 class="font-heading text-2xl font-bold text-white">Common Questions</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="space-y-4">
+                    <details class="group bg-brand-charcoal border border-slate-800 rounded-xl cursor-pointer">
+                        <summary class="font-semibold text-sm text-white p-4 flex justify-between">Where does it pull the dates from? <span class="text-brand-safety">▼</span></summary>
+                        <div class="px-4 pb-4 text-xs text-slate-400 border-t border-slate-800 pt-3">
+                            We can connect this to your existing fleet management software (if it has an open API like Tenstreet or Samsara), or we can build you a simple, secure Airtable database where your safety manager just drops in the driver's info and expiration dates.
+                        </div>
+                    </details>
+
+                    <details class="group bg-brand-charcoal border border-slate-800 rounded-xl cursor-pointer">
+                        <summary class="font-semibold text-sm text-white p-4 flex justify-between">Why the 6-month minimum lock-in? <span class="text-brand-safety">▼</span></summary>
+                        <div class="px-4 pb-4 text-xs text-slate-400 border-t border-slate-800 pt-3">
+                            Federal telecommunications law now requires businesses to formally register their EINs with major carriers to send automated SMS. The 6-month term ensures we cover the upfront labor and filing fees required to prevent your safety texts from being blocked as spam.
+                        </div>
+                    </details>
+                </div>
+
+                <div class="space-y-4">
+                    <details class="group bg-brand-charcoal border border-slate-800 rounded-xl cursor-pointer">
+                        <summary class="font-semibold text-sm text-white p-4 flex justify-between">Can drivers upload their new cards? <span class="text-brand-safety">▼</span></summary>
+                        <div class="px-4 pb-4 text-xs text-slate-400 border-t border-slate-800 pt-3">
+                            Yes. The text messages include a secure upload link. When the driver takes a picture of their renewed Medical Card, it drops directly into your compliance folder so your safety manager can approve it.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="contact" class="py-20 px-4 sm:px-6 border-b border-slate-900 bg-black">
+        <div class="max-w-xl mx-auto bg-brand-charcoal border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
+            <div class="text-center mb-6">
+                <h2 class="font-heading text-xl sm:text-2xl font-bold text-white">Automate Your Fleet Compliance</h2>
+                <p class="text-xs text-slate-400 mt-2">Drop your details below. We'll send you a custom video showing how this connects to your current driver roster.</p>
+            </div>
+            <form onsubmit="event.preventDefault(); alert('Request sent! We will reach out shortly.');" class="space-y-4 text-xs">
+                <div>
+                    <input type="text" placeholder="Fleet/Company Name" required class="w-full bg-black border border-slate-800 rounded-xl px-4 py-3.5 text-white outline-none focus:border-brand-safety">
+                </div>
+                <div>
+                    <input type="number" placeholder="Approximate Number of Trucks/Drivers" required class="w-full bg-black border border-slate-800 rounded-xl px-4 py-3.5 text-white outline-none focus:border-brand-safety">
+                </div>
+                <button type="submit" class="w-full py-3.5 rounded-xl font-bold text-sm bg-brand-safety hover:bg-yellow-400 text-black shadow-[0_0_15px_rgba(245,158,11,0.3)] mt-2 transition">
+                    Request System Walkthrough
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="py-6 text-center text-[10px] text-slate-600 bg-black font-mono">
+        © 2026 Apex Local Automation LLC. Based locally in Fremont, OH.
+    </footer>
+</body>
+</html>

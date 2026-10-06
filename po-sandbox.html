@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PO & Invoice Reconciliation | Apex Local Automation</title>
+
+    <link rel="stylesheet" href="asset/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            heading: ['Space Grotesk', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              cyan: '#00E5FF',
+              charcoal: '#0D0D12',
+              alert: '#FF3D00',
+              emerald: '#10B981'
+            }
+          }
+        }
+      }
+    }</script>
+    <script src="asset/js/app.js" defer></script>
+</head>
+<body class="bg-black text-slate-300 font-sans antialiased selection:bg-brand-emerald selection:text-black">
+
+    <!-- Header -->
+    <header class="border-b border-slate-800/80 bg-black/90 backdrop-blur sticky top-0 z-50 px-4 sm:px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition">
+                    <div class="h-9 w-9 rounded-lg bg-brand-cyan/10 text-brand-cyan flex items-center justify-center font-black text-xl border border-brand-cyan/30">⚡</div>
+                    <div>
+                        <span class="font-heading font-bold text-white text-base tracking-tight block leading-none">Apex Local</span>
+                        <span class="text-[11px] text-slate-500 font-mono uppercase tracking-wider">Automation</span>
+                    </div>
+                </a>
+            </div>
+            <div class="flex items-center gap-5">
+                <a href="#demo" class="hidden sm:block text-xs font-semibold text-slate-400 hover:text-white transition">See It Work</a>
+                <a href="#pricing" class="hidden sm:block text-xs font-semibold text-slate-400 hover:text-white transition">Pricing</a>
+                <a href="#faq" class="hidden sm:block text-xs font-semibold text-slate-400 hover:text-white transition">FAQ</a>
+                <a href="#contact" class="bg-brand-emerald hover:bg-emerald-400 text-black text-xs font-bold px-4 py-2.5 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.3)] transition">Book Audit</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-16 pb-20 px-4 sm:px-6 lg:px-8 border-b border-slate-900 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-charcoal via-black to-black">
+        <div class="max-w-4xl mx-auto text-center space-y-6 fade-in">
+            <div class="inline-flex items-center gap-2 bg-brand-charcoal border border-slate-800 px-4 py-1.5 rounded-full text-xs font-medium text-slate-400 font-mono">
+                <span class="w-2 h-2 rounded-full bg-brand-emerald animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
+                Built for Distribution, Logistics & Warehousing
+            </div>
+            <h1 class="font-heading text-4xl sm:text-5xl lg:text-7xl font-black text-white tracking-tight leading-[1.1]">
+                Stop Overpaying Vendors For <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-emerald to-teal-300">Items You Never Got.</span>
+            </h1>
+            <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                Manual 3-way matching is a massive administrative bottleneck. We build automated parsing pipelines that read incoming PDF invoices, cross-reference them against your Purchase Orders and dock receipts, and instantly flag overbilling.
+            </p>
+        </div>
+    </section>
+
+    <!-- Interactive Sandbox -->
+    <section id="demo" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-900 bg-brand-charcoal/30">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            <!-- Dashboard UI Container -->
+            <div class="flex justify-center lg:justify-start order-2 lg:order-1">
+                <div class="w-full max-w-[400px] bg-brand-charcoal border-[6px] border-slate-800 rounded-[20px] shadow-2xl p-1.5 relative overflow-hidden">
+                    <div class="bg-black rounded-[12px] h-[380px] flex flex-col overflow-hidden text-slate-200 border border-slate-900 relative">
+
+                        <!-- Dashboard Header -->
+                        <div class="bg-brand-charcoal px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="flex gap-1.5">
+                                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-brand-emerald"></div>
+                                </div>
+                                <div class="text-[10px] text-slate-400 font-mono tracking-wider ml-2">APEX_AUDIT_TERMINAL</div>
+                            </div>
+                        </div>
+
+                        <!-- Terminal Output Area -->
+                        <div id="auditLogContainer" class="flex-1 p-4 overflow-y-auto space-y-2 flex flex-col font-mono text-[11px] leading-relaxed">
+                            <div class="text-slate-500">System Ready. Waiting for incoming invoices...</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logic & Buttons -->
+            <div class="space-y-6 order-1 lg:order-2">
+                <div>
+                    <span class="text-xs font-bold text-brand-emerald uppercase tracking-widest font-mono">Interactive Proof</span>
+                    <h2 class="font-heading text-3xl font-bold text-white mt-2">The Automated Auditor</h2>
+                    <p class="text-sm text-slate-400 mt-4 leading-relaxed">
+                        Your Accounts Payable team doesn't have time to verify every single line item on a 10-page parts invoice. By using OCR (Optical Character Recognition) and logic scripts, the system audits the data in seconds and only alerts a human if the math doesn't match the PO.
+                    </p>
+                </div>
+
+                <div class="space-y-3 mt-4">
+                    <div class="bg-black border border-slate-800 p-4 rounded-xl flex gap-3">
+                        <div class="text-xl">1️⃣</div>
+                        <div>
+                            <div class="font-bold text-white text-sm">PDF Extraction</div>
+                            <div class="text-xs text-slate-500 mt-1">Vendor emails the invoice to a dedicated inbox. The script extracts the data automatically.</div>
+                        </div>
+                    </div>
+                    <div class="bg-black border border-slate-800 p-4 rounded-xl flex gap-3">
+                        <div class="text-xl">2️⃣</div>
+                        <div>
+                            <div class="font-bold text-white text-sm">The Logic Match</div>
+                            <div class="text-xs text-slate-500 mt-1">If line items and totals match the original PO, it is marked "Approved." If there is a price hike or missing quantity, it is flagged for review.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="btnSimPo" onclick="runPoSim()" class="w-full sm:w-auto py-3.5 px-8 rounded-xl font-bold text-sm bg-brand-emerald hover:bg-emerald-400 text-black shadow-[0_0_15px_rgba(16,185,129,0.3)] transition mt-2">
+                    ▶ Run Invoice Audit Simulation
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-900 bg-black">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-3xl font-bold text-white">Transparent Pricing</h2>
+                <p class="text-sm text-slate-400 mt-2">Catching one bad invoice pays for the entire year.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- The Module -->
+                <div class="bg-brand-charcoal border border-slate-800 rounded-3xl p-8 shadow-xl flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-heading text-xl font-bold text-white">Reconciliation Module</h3>
+                        <p class="text-xs text-slate-500 mt-2">Custom script wired to your AP inbox.</p>
+
+                        <div class="mt-6 border-b border-slate-800 pb-6 mb-6">
+                            <div class="text-sm text-slate-400 font-mono uppercase mb-1">Setup Fee</div>
+                            <div class="font-heading text-4xl font-black text-white">$1,800 <span class="text-sm text-slate-500 font-sans font-normal">one-time</span></div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <div class="text-sm text-slate-400 font-mono uppercase mb-1">Monthly Management</div>
+                                <div class="font-heading text-2xl font-bold text-white">$195 <span class="text-sm text-slate-500 font-sans font-normal">/ mo</span></div>
+                                <div class="text-[10px] text-slate-500 mt-1 font-mono">Requires 6-mo minimum contract.</div>
+                            </div>
+                            <div class="bg-black border border-slate-800 p-3 rounded-lg flex justify-between items-center mt-2">
+                                <span class="text-xs text-white font-bold">Annual Upfront</span>
+                                <span class="text-xs font-bold text-brand-emerald">$1,950/yr (Save $390)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#contact" class="block text-center w-full py-3 mt-8 rounded-xl font-bold text-sm bg-slate-800 hover:bg-slate-700 text-white transition">Book Module Setup</a>
+                </div>
+
+                <!-- The Upsell (Logistics Bundle) -->
+                <div class="bg-gradient-to-br from-brand-charcoal to-black border-2 border-brand-emerald/50 rounded-3xl p-8 shadow-[0_0_30px_rgba(16,185,129,0.1)] flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-brand-emerald text-black text-[10px] font-bold px-4 py-1.5 rounded-bl-xl font-mono tracking-wider">
+                        FLEET BUNDLE
+                    </div>
+                    <div>
+                        <h3 class="font-heading text-xl font-bold text-brand-emerald">Fleet Operations Bundle</h3>
+                        <p class="text-xs text-slate-400 mt-2">Get the PO Reconciliation software AND our automated DOT Safety Tracker.</p>
+
+                        <div class="mt-6 border-b border-slate-800 pb-6 mb-6">
+                            <div class="text-sm text-slate-400 font-mono uppercase mb-1">Setup Fee</div>
+                            <div class="font-heading text-4xl font-black text-white">$2,800 <span class="text-sm text-slate-500 font-sans font-normal">one-time</span></div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <div class="text-sm text-slate-400 font-mono uppercase mb-1">Monthly Management</div>
+                                <div class="font-heading text-2xl font-bold text-white">$295 <span class="text-sm text-slate-500 font-sans font-normal">/ mo</span></div>
+                                <div class="text-[10px] text-slate-500 mt-1 font-mono">Requires 6-mo minimum contract.</div>
+                            </div>
+                            <div class="bg-brand-emerald/10 border border-brand-emerald/30 p-3 rounded-lg flex justify-between items-center mt-2">
+                                <span class="text-xs text-white font-bold">Annual Upfront</span>
+                                <span class="text-xs font-bold text-brand-emerald">$2,950/yr (Save $590)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#contact" class="block text-center w-full py-3 mt-8 rounded-xl font-bold text-sm bg-brand-emerald hover:bg-emerald-400 text-black shadow-lg transition">Request Bundle Setup</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium AI Cross-Sell -->
+    <section class="py-12 px-4 sm:px-6 lg:px-8 bg-black border-b border-slate-900">
+        <div class="max-w-4xl mx-auto bg-gradient-to-r from-brand-charcoal to-black border border-brand-ai/30 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-brand-ai/10 blur-[50px] rounded-full pointer-events-none"></div>
+            <div>
+                <div class="inline-flex items-center gap-2 bg-brand-ai/10 text-brand-ai px-2 py-1 rounded text-[10px] font-bold font-mono uppercase tracking-wider mb-2 border border-brand-ai/20">
+                    Scale Beyond Automations
+                </div>
+                <h3 class="font-heading text-xl sm:text-2xl font-bold text-white mb-2">Need a fully autonomous AI Receptionist?</h3>
+                <p class="text-sm text-slate-400 max-w-lg">We custom-engineer human-sounding AI Voice Agents that answer live phone calls, check your inventory, book estimates, and route emergencies. Trained strictly on your business data.</p>
+            </div>
+            <a href="ai-assistant.html" class="shrink-0 w-full sm:w-auto text-center bg-brand-charcoal border border-brand-ai hover:bg-brand-ai hover:text-white text-brand-ai font-bold text-sm px-6 py-3 rounded-xl transition-all duration-300">
+                Listen to a Live Call Demo
+            </a>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 px-4 sm:px-6 lg:px-8 bg-brand-charcoal/20">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-10">
+                <h2 class="font-heading text-2xl font-bold text-white">Common Questions</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="space-y-4">
+                    <details class="group bg-brand-charcoal border border-slate-800 rounded-xl cursor-pointer">
+                        <summary class="font-semibold text-sm text-white p-4 flex justify-between">Does this system pay the invoice for me? <span class="text-brand-emerald">▼</span></summary>
+                        <div class="px-4 pb-4 text-xs text-slate-400 border-t border-slate-800 pt-3">
+                            No. To ensure zero financial liability, our software operates strictly as a read-only auditor. It cross-references the data and outputs an "Approved" or "Flagged" status into your existing AP dashboard or a custom spreadsheet. A human still initiates the actual payment.
+                        </div>
+                    </details>
+
+                    <details class="group bg-brand-charcoal border border-slate-800 rounded-xl cursor-pointer">
+                        <summary class="font-semibold text-sm text-white p-4 flex justify-between">How does it read the PDFs? <span class="text-brand-emerald">▼</span></summary>
+                        <div class="px-4 pb-4 text-xs text-slate-400 border-t border-slate-800 pt-3">
+                            We utilize enterprise-grade OCR (Optical Character Recognition) APIs capable of extracting line items, quantities, and totals from structured and unstructured vendor invoices, even if the formats differ from vendor to vendor.
+                        </div>
+                    </details>
+                </div>
+
+                <div class="space-y-4">
+                    <details class="group bg-brand-charcoal border border-brand-emerald/30 rounded-xl cursor-pointer open:border-brand-emerald transition-colors" open>
+                        <summary class="font-semibold text-sm text-white p-4 flex justify-between">Should I get this module, or the Fleet Bundle? <span class="text-brand-emerald">▼</span></summary>
+                        <div class="px-4 pb-4 text-xs text-slate-300 border-t border-slate-800 pt-3 leading-relaxed">
+                            If your main pain point is back-office financial bleeding, start here. But if you are managing trucks and also struggling to keep track of CDLs, Medical Cards, and safety compliance, the Fleet Operations Bundle gives you both the AP Auditor and the DOT Safety Tracker at a heavily discounted rate.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="contact" class="py-20 px-4 sm:px-6 border-b border-slate-900 bg-black">
+        <div class="max-w-xl mx-auto bg-brand-charcoal border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
+            <div class="text-center mb-6">
+                <h2 class="font-heading text-xl sm:text-2xl font-bold text-white">Stop Overbilling Today</h2>
+                <p class="text-xs text-slate-400 mt-2">Drop your details below. We'll send you a custom video showing how the auditor integrates with your specific setup.</p>
+            </div>
+            <form onsubmit="event.preventDefault(); alert('Request sent! We will reach out shortly.');" class="space-y-4 text-xs">
+                <div>
+                    <input type="text" placeholder="Company Name" required class="w-full bg-black border border-slate-800 rounded-xl px-4 py-3.5 text-white outline-none focus:border-brand-emerald">
+                </div>
+                <div>
+                    <input type="text" placeholder="What accounting software do you use?" required class="w-full bg-black border border-slate-800 rounded-xl px-4 py-3.5 text-white outline-none focus:border-brand-emerald">
+                </div>
+                <button type="submit" class="w-full py-3.5 rounded-xl font-bold text-sm bg-brand-emerald hover:bg-emerald-400 text-black shadow-[0_0_15px_rgba(16,185,129,0.3)] mt-2 transition">
+                    Request System Walkthrough
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="py-6 text-center text-[10px] text-slate-600 bg-black font-mono">
+        © 2026 Apex Local Automation LLC. Based locally in Fremont, OH.
+    </footer>
+</body>
+</html>
